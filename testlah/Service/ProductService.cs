@@ -17,12 +17,12 @@ namespace testlah.Service
 
         public async Task<IList<Product>> GetProductsAsync()
         {
-            return await _db.Products.ToListAsync();
+            return await _db.Products.Include(p => p.Category).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _db.Products.FindAsync(id);
+            return await _db.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Product> CreateProductAsync(Product product)
@@ -32,7 +32,7 @@ namespace testlah.Service
             return product;
         }
 
-        public async Task<Product> UpdateProductAsync(int id, string name, decimal price)
+        public async Task<Product> UpdateProductAsync(int id, string name, decimal price, int categoryId)
         {
             var product = await _db.Products.FindAsync(id);
             if (product == null)
@@ -42,6 +42,7 @@ namespace testlah.Service
 
             product.Name = name;
             product.Price = price;
+            product.CategoryId = categoryId;
             await _db.SaveChangesAsync();
             return product;
         }
@@ -65,7 +66,7 @@ namespace testlah.Service
         Task<IList<Product>> GetProductsAsync();
         Task<Product> GetProductByIdAsync(int id);
         Task<Product> CreateProductAsync(Product product);
-        Task<Product> UpdateProductAsync(int id, string name, decimal price);
+        Task<Product> UpdateProductAsync(int id, string name, decimal price, int categoryId);
         Task<bool> DeleteProductAsync(int id);
     }
 }

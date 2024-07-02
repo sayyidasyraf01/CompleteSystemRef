@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using testlah.Data;
 using testlah.Service;
+using testlah.Service.testlah.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services.AddDbContext<ApplicationDbContext>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
     );
+builder.Services.AddControllers()
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -21,6 +27,7 @@ builder.Services.AddSwaggerGen();
 
 //service
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 

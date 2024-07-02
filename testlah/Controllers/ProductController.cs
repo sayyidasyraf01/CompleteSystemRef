@@ -45,7 +45,7 @@ namespace testlah.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
         {
-            var updatedProduct = await _productService.UpdateProductAsync(id, product.Name, product.Price);
+            var updatedProduct = await _productService.UpdateProductAsync(id, product.Name, product.Price, product.CategoryId);
             if (updatedProduct == null)
             {
                 return NotFound();

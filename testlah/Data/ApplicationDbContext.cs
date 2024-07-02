@@ -14,7 +14,9 @@ namespace testlah.Data
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId); // Foreign key in Product table
+                .HasForeignKey(p => p.CategoryId) // Foreign key in Product table
+                .IsRequired();
+      
 
             // Configure other entity mappings if needed
         }
